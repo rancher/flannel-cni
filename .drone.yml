@@ -1,0 +1,96 @@
+kind: pipeline
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: build-amd64
+    image: docker
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    commands:
+      - apk add --no-cache make git bash curl
+      - make
+  - name: publish-amd64
+    image: docker
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    environment:
+      USERNAME:
+        from_secret: dockerhub_username
+      PASSWORD:
+        from_secret: dockerhub_password
+    commands:
+      - "docker login -u $USERNAME -p $PASSWORD"
+      - "docker push rancher/flannel-cni:${DRONE_TAG}-amd64"
+    when:
+      event:
+        - tag
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+---
+kind: pipeline
+name: arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: build-arm64
+    image: docker
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    commands:
+      - apk add --no-cache make git bash curl
+      - make
+  - name: publish-arm64
+    image: docker
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    environment:
+      USERNAME:
+        from_secret: dockerhub_username
+      PASSWORD:
+        from_secret: dockerhub_password
+    commands:
+      - "docker login -u $USERNAME -p $PASSWORD"
+      - "docker push rancher/flannel-cni:${DRONE_TAG}-arm64"
+    when:
+      event:
+        - tag
+volumes:
+  - name: docker
+    host:
+      path: /var/run/docker.sock
+---
+kind: pipeline
+name: manifest
+
+steps:
+  - name: push-manifest
+    image: plugins/manifest:1.0.2
+    settings:
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+      target: "rancher/flannel-cni:${DRONE_TAG}"
+      template: "rancher/flannel-cni:${DRONE_TAG}-ARCH"
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    when:
+      event:
+        - tag
+depends_on:
+- amd64
+- arm64

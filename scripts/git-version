@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
+git fetch
 # parse the current git commit hash
 COMMIT=`git rev-parse HEAD`
 
