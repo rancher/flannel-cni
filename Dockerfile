@@ -1,4 +1,4 @@
-FROM busybox
+FROM BASEIMAGE_ARCH/busybox
 
 ADD dist/flannel /opt/cni/bin/flannel
 ADD dist/loopback /opt/cni/bin/loopback
