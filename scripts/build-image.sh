@@ -39,4 +39,4 @@ case ${ARCH} in
     arm64) BASEIMAGE_ARCH="arm64v8" ;;
 esac
 sed -i "s|BASEIMAGE_ARCH|$BASEIMAGE_ARCH|g" Dockerfile
-docker build --no-cache -t $IMAGE_NAME:$VERSION-${ARCH} .
+docker build --no-cache -t $IMAGE_NAME:$VERSION-linux-${ARCH} .
