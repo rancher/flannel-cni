@@ -2,7 +2,7 @@ ARG SERVERCORE_VERSION
 
 FROM mcr.microsoft.com/windows/servercore:${SERVERCORE_VERSION} as download
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
-RUN $URL = 'https://github.com/thxCode/containernetworking-plugins/releases/download/v0.2.0-rancher/binaries.zip'; \
+RUN $URL = 'https://github.com/thxCode/containernetworking-plugins/releases/download/v0.2.1-rancher/binaries.zip'; \
     \
     Write-Host ('Downloading CNI plugins from {0} ...' -f $URL); \
     \
