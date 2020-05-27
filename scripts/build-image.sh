@@ -5,8 +5,10 @@ FLANNEL_CNI_ROOT=$(git rev-parse --show-toplevel)
 IMAGE_NAME=rancher/flannel-cni
 VERSION=$($FLANNEL_CNI_ROOT/scripts/git-version)
 CNI_VERSION="v0.6.0"
+CNI_PLUGIN_VERSION="v0.8.6"
 
 ARCH=amd64
+OS_TYPE=linux
 
 case "$(uname -m)" in
   x86_64*)
@@ -32,7 +34,7 @@ esac
 
 mkdir -p dist
 $CURL -L --retry 5 https://github.com/containernetworking/cni/releases/download/$CNI_VERSION/cni-${ARCH}-$CNI_VERSION.tgz | tar -xz -C dist/
-$CURL -L --retry 5 https://github.com/containernetworking/plugins/releases/download/$CNI_VERSION/cni-plugins-${ARCH}-$CNI_VERSION.tgz | tar -xz -C dist/
+$CURL -L --retry 5 https://github.com/containernetworking/plugins/releases/download/$CNI_PLUGIN_VERSION/cni-plugins-${OS_TYPE}-${ARCH}-$CNI_PLUGIN_VERSION.tgz | tar -xz -C dist/
 
 case ${ARCH} in
     amd64) BASEIMAGE_ARCH="amd64" ;;
