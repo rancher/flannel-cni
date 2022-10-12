@@ -6,6 +6,7 @@ IMAGE_NAME=rancher/flannel-cni
 VERSION=$($FLANNEL_CNI_ROOT/scripts/git-version)
 CNI_VERSION="v0.6.0"
 CNI_PLUGIN_VERSION="v1.1.1"
+FLANNEL_VERSION="v1.1.0"
 
 ARCH=amd64
 OS_TYPE=linux
@@ -35,6 +36,8 @@ esac
 mkdir -p dist
 $CURL -L --retry 5 https://github.com/containernetworking/cni/releases/download/$CNI_VERSION/cni-${ARCH}-$CNI_VERSION.tgz | tar -xz -C dist/
 $CURL -L --retry 5 https://github.com/containernetworking/plugins/releases/download/$CNI_PLUGIN_VERSION/cni-plugins-${OS_TYPE}-${ARCH}-$CNI_PLUGIN_VERSION.tgz | tar -xz -C dist/
+$CURL -L --retry 5 https://github.com/flannel-io/cni-plugin/releases/download/$FLANNEL_VERSION/flannel-${ARCH} -o dist/flannel
+chmod +x dist/flannel
 
 case ${ARCH} in
     amd64) BASEIMAGE_ARCH="amd64" ;;
