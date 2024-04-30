@@ -5,8 +5,8 @@ FLANNEL_CNI_ROOT=$(git rev-parse --show-toplevel)
 IMAGE_NAME=rancher/flannel-cni
 VERSION=$($FLANNEL_CNI_ROOT/scripts/git-version)
 CNI_VERSION="v0.6.0"
-CNI_PLUGIN_VERSION="v1.3.0"
-FLANNEL_VERSION="v1.2.0"
+CNI_PLUGIN_VERSION="v1.4.1"
+FLANNEL_VERSION="v1.4.1-flannel1"
 
 ARCH=amd64
 OS_TYPE=linux
